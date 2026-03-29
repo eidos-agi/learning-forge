@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eidos-agi.github.io/learning-forge/contracts/learning-log.schema.json",
+  "title": "Learning Log",
+  "description": "Record of learnings extracted from a session. Written to the source project's learnings/ directory. Each entry tracks where the learning was routed and whether it was applied directly or proposed to forge-forge.",
+  "type": "object",
+  "required": ["date", "session", "learnings", "applied", "proposed"],
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the session"
+    },
+    "session": {
+      "type": "string",
+      "description": "Human-readable description of what happened"
+    },
+    "learnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "type", "routed_to", "status"],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The learning — one actionable sentence"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["project-fix", "tool-gotcha", "forge-improvement", "pattern", "process", "principle"],
+            "description": "Classification that determines routing"
+          },
+          "routed_to": {
+            "type": "string",
+            "description": "File path or location where the learning was written"
+          },
+          "actionable": {
+            "type": "string",
+            "description": "What the next agent should do differently because of this learning"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["applied", "proposed"],
+            "description": "applied = written directly to destination. proposed = written as proposal to forge-forge."
+          }
+        }
+      }
+    },
+    "applied": {
+      "type": "integer",
+      "description": "Count of learnings applied directly (project-level)"
+    },
+    "proposed": {
+      "type": "integer",
+      "description": "Count of learnings proposed to forge-forge (forge-level)"
+    }
+  },
+  "additionalProperties": false
+}
